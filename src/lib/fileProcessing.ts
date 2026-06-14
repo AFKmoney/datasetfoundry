@@ -1,6 +1,7 @@
 import { ProcessedFile, DatasetConfig, FileMetadata } from '../types';
 import { extractZip, extractTar, extractTarGz, extractRar } from './extractor';
 import { processImage } from './imageProcessing';
+import { encode } from 'gpt-tokenizer';
 
 const TEXT_EXTENSIONS = new Set([
   'txt', 'md', 'csv', 'json', 'jsonl', 'xml', 'html', 'css', 'js', 'jsx', 'ts', 'tsx', 
@@ -185,6 +186,13 @@ async function processExtracted(files: { name: string, content: Uint8Array }[], 
 }
 
 function createProcessedFile(name: string, path: string, content: string, size: number, extension: string, metadata: any, isImage: boolean, isAudio: boolean = false, isVideo: boolean = false): ProcessedFile {
+  let tokenCount: number | undefined = undefined;
+  if (!isImage && !isAudio && !isVideo) {
+    try {
+      tokenCount = encode(content).length;
+    } catch(e) {}
+  }
+
   return {
     id: Math.random().toString(36).substring(2, 11),
     name,
@@ -195,6 +203,7 @@ function createProcessedFile(name: string, path: string, content: string, size: 
     metadata,
     isImage,
     isAudio,
-    isVideo
+    isVideo,
+    tokenCount
   };
 }

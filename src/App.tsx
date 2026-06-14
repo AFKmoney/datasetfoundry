@@ -367,6 +367,8 @@ export default function App() {
 
   const totalFiles = files.length;
   const totalStorage = formatFileSize(files.reduce((a, f) => a + f.size, 0));
+  const totalTokens = files.reduce((a, f) => a + (f.tokenCount || 0), 0);
+  const formattedTokens = new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(totalTokens);
 
   const typeDistributionData = React.useMemo(() => {
     const counts = files.reduce((acc, file) => {
@@ -505,7 +507,7 @@ export default function App() {
                 </div>
 
                 {/* Summary Stats Panel */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6 shrink-0">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6 shrink-0">
                    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-center relative overflow-hidden shadow-xl">
                      <div className="absolute -right-4 -top-4 w-24 h-24 bg-indigo-500/10 blur-2xl rounded-full"></div>
                      <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-bold mb-2 z-10">Total Files</span>
@@ -516,7 +518,12 @@ export default function App() {
                      <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-bold mb-2 z-10">Storage Usage</span>
                      <span className="text-4xl font-light text-white tracking-tight z-10">{totalStorage}</span>
                    </div>
-                   <div className="bg-white/[0.02] border border-white/5 rounded-2xl px-6 py-4 flex items-center shadow-xl h-[120px]">
+                   <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 flex flex-col justify-center relative overflow-hidden shadow-xl">
+                     <div className="absolute -right-4 -top-4 w-24 h-24 bg-pink-500/10 blur-2xl rounded-full"></div>
+                     <span className="text-[10px] text-white/40 uppercase tracking-[0.2em] font-bold mb-2 z-10">Est. Tokens</span>
+                     <span className="text-4xl font-light text-white tracking-tight z-10">{formattedTokens}</span>
+                   </div>
+                   <div className="bg-white/[0.02] border border-white/5 rounded-2xl px-6 py-4 flex items-center shadow-xl h-[120px] md:col-span-1">
                      {typeDistributionData.length > 0 ? (
                        <>
                         <div className="w-24 h-24 shrink-0">
@@ -653,6 +660,7 @@ export default function App() {
                                  <th className="px-6 py-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.15em]">File</th>
                                  <th className="px-6 py-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.15em] w-48">Category</th>
                                  <th className="px-6 py-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.15em] w-32">Size</th>
+                                 <th className="px-6 py-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.15em] w-32">Tokens</th>
                                  <th className="px-6 py-4 text-[9px] font-bold text-white/40 uppercase tracking-[0.15em] text-right w-24">Actions</th>
                                </tr>
                              </thead>
@@ -699,6 +707,9 @@ export default function App() {
                                    </td>
                                    <td className="px-6 py-3 whitespace-nowrap text-[10px] font-mono text-white/40">
                                      {formatFileSize(file.size)}
+                                   </td>
+                                   <td className="px-6 py-3 whitespace-nowrap text-[10px] font-mono text-white/40">
+                                     {file.tokenCount ? new Intl.NumberFormat('en-US', { notation: "compact", compactDisplay: "short" }).format(file.tokenCount) : '-'}
                                    </td>
                                    <td className="px-6 py-3 whitespace-nowrap text-right">
                                      <button

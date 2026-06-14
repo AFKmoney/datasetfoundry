@@ -23,6 +23,7 @@ export interface ProcessedFile {
   isImage?: boolean;
   isAudio?: boolean;
   isVideo?: boolean;
+  tokenCount?: number;
 }
 
 export interface DatasetConfig {

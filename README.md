@@ -1,41 +1,28 @@
 # Dataset Architect
 
-Dataset Architect is a powerful, client-side web application designed to help you aggregate, categorize, and prepare complex datasets for AI training, data analysis, or general file management. Run entirely in the browser, it ensures your data remains private and secure.
+Dataset Architect is a comprehensive, browser-based web application tailored for building, categorizing, and exporting AI training datasets. It operates entirely client-side, ensuring full data privacy.
 
 ## Features
 
-- **Multi-Source Ingestion:** Drag and drop individual files, upload archives (`.zip`, `.tar`, `.gz`), or fetch entire GitHub repositories directly by pasting a URL.
-- **Auto-Categorization System:** The app automatically sorts imported files into relevant categories (e.g., Code, Data, Documents, Images) based on their extension and type.
-- **Virtual File System (VFS):** Navigate your dataset through a clean, intuitive explorer interface.
-- **Contextual Actions:** Right-click files in the explorer to download, clone, move between categories, or delete them.
-- **Rich Previews:** Preview code, markdown, images, and other file types directly in the browser with syntax highlighting.
-- **Dashboard & Statistics:** View comprehensive summary statistics of your dataset, including file counts, total storage usage, and a visual distribution chart powered by Recharts.
-- **Advanced Export Pipeline:** Configure how your dataset is exported. Choose from multiple formats (`.jsonl`, `.md`, or raw files), apply file size limits, filter out binary files, and estimate token counts for LLM training.
-- **Local Persistence:** Your dataset and configurations are automatically saved to your browser's local storage (via IndexedDB/LocalForage), so you won't lose your work if you refresh the page.
+- **Multi-Source Ingestion:** Drag and drop files, upload archives (`.zip`, `.tar`, `.gz`), or fetch entire GitHub repositories by URL.
+- **Auto-Categorization:** Automatically categorizes files into appropriate dataset groups like Code, Data, Documents, and Images.
+- **LLM Token Estimation:** Utilizes `gpt-tokenizer` to accurately count BPE tokens for imported text files, making it easy to size up your dataset requirements for models like GPT-4, Llama, and Gemini.
+- **Virtual File System (VFS):** Navigate and manipulate the dataset directly from a modern UI. Includes summary statistics panels for file weight, quantity, and token counts.
+- **Advanced Export Pipeline:** Export ready-to-train files in `.jsonl`, `.csv`, `.md`, or raw files formats. Apply token caps, chunking rules, remove stop-words, and more.
+- **Local Persistence:** Data is securely persisted in the browser via IndexedDB / LocalForage, meaning datasets seamlessly load between visits.
 
-## Technologies Used
+## Tech Stack Overview
 
-- **React & TypeScript:** For a robust, type-safe user interface.
-- **Tailwind CSS & Framer Motion:** For modern, fluid styling and animations.
-- **Recharts:** For dataset distribution visualization.
-- **LocalForage:** For robust client-side storage architecture.
-- **JSZip / unzlib:** For client-side archive extraction.
-- **PrismJS:** For syntax-highlighted code previews.
+- React + TypeScript
+- Tailwind CSS & Framer Motion
+- JSZip / libarchive.js (Client-Side Compression)
+- gpt-tokenizer (Token Counting)
+- IndexedDB (LocalForage)
 
-## Getting Started
+## Setup
 
-1. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-2. Start the development server:
-   ```bash
-   npm run dev
-   ```
-
-3. Open `http://localhost:3000` in your browser.
-
-## Privacy & Security
-
-Dataset Architect processes all files locally within your browser. Files are not uploaded to any external server (unless you are explicitly fetching a remote GitHub repository, in which case the app makes a request to the repository URL).
+```bash
+npm install
+npm run dev
+```
+Open `http://localhost:3000` to start using Dataset Architect.
