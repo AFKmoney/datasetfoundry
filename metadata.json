@@ -1,6 +1,0 @@
-{
-  "name": "Dataset Foundry",
-  "description": "Convert folders, ZIP files, and documents into AI-ready training datasets.",
-  "requestFramePermissions": [],
-  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
-}

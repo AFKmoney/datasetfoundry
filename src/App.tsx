@@ -390,7 +390,7 @@ export default function App() {
       <aside className="w-64 border-r border-white/5 bg-[#050505] fixed h-full flex flex-col z-20">
           <div className="p-6 border-b border-white/5 flex items-center justify-center lg:justify-start gap-4">
             <div className="w-8 h-8 rounded bg-white flex items-center justify-center text-black font-bold text-xs italic shadow-[0_0_15px_rgba(255,255,255,0.2)]">DS</div>
-            <h1 className="text-[13px] font-semibold tracking-widest uppercase text-white/90">Dataset.Arc</h1>
+            <h1 className="text-[13px] font-semibold tracking-widest uppercase text-white/90">datasetfoundry</h1>
           </div>
           
           <nav className="flex-1 p-5 space-y-3">
