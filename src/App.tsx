@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Database, Download, FileText, Settings, Trash2, Layers, UploadCloud, AlertCircle, Eye, FolderPlus, X, Folder, LayoutGrid, CheckSquare, Search, Copy } from 'lucide-react';
 import { Dropzone } from './components/Dropzone';
 import { processFiles } from './lib/fileProcessing';
-import { generateDataset } from './lib/datasetExporter';
+import { generateDatasetZip } from './lib/datasetExporter';
 import { DatasetConfig, ProcessedFile } from './types';
 import localforage from 'localforage';
 import { motion, AnimatePresence } from 'motion/react';
@@ -273,23 +273,11 @@ export default function App() {
     setCurrentView('sources');
   };
 
-  const handleExport = () => {
+  const handleExport = async () => {
     try {
-      const content = generateDataset(files, config);
-      let mimeType = 'text/plain';
-      let extension = 'txt';
-      
-      if (config.format === 'jsonl') {
-        mimeType = 'application/jsonl';
-        extension = 'jsonl';
-      } else if (config.format === 'csv') {
-        mimeType = 'text/csv';
-        extension = 'csv';
-      }
-
-      const blob = new Blob([content], { type: mimeType });
+      const blob = await generateDatasetZip(files, config);
       const url = URL.createObjectURL(blob);
-      const filename = `dataset-${new Date().toISOString().split('T')[0]}.${extension}`;
+      const filename = `dataset-${new Date().toISOString().split('T')[0]}.zip`;
       setDownloadUrl({ url, filename });
     } catch (e: any) {
       console.error("Export error:", e);
@@ -412,9 +400,9 @@ export default function App() {
                    <span className="text-[9px] uppercase font-mono text-white/40 tracking-widest">Total Weight</span>
                    <span className="text-[11px] font-mono text-white/80">{formatFileSize(files.reduce((a,f)=>a+f.size,0))}</span>
                  </div>
-                 <button onClick={handleExport} className="w-full justify-center flex items-center bg-white text-black py-3.5 rounded-xl uppercase text-[10px] font-bold tracking-[0.15em] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">
-                   <Download className="w-3 h-3 mr-2" /> Export
-                 </button>
+                  <button onClick={handleExport} className="w-full justify-center flex items-center bg-white text-black py-3.5 rounded-xl uppercase text-[10px] font-bold tracking-[0.15em] hover:bg-gray-200 transition-colors shadow-[0_0_20px_rgba(255,255,255,0.1)]">
+                    <Download className="w-3 h-3 mr-2" /> Export as ZIP
+                  </button>
                  {downloadUrl && (
                     <a ref={downloadRef} href={downloadUrl.url} download={downloadUrl.filename} className="block mt-4 text-center text-[10px] text-emerald-400 font-mono underline hover:text-emerald-300">
                         Manual Download Link
